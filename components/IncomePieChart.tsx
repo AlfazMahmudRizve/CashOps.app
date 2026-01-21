@@ -20,13 +20,13 @@ export function IncomePieChart({ data }: IncomePieChartProps) {
     }
 
     return (
-        <div className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm hover:shadow-md transition-shadow duration-300 h-full flex flex-col">
+        <div className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm hover:shadow-md transition-shadow duration-300 h-full flex flex-col min-w-0">
             <div className="mb-2">
                 <h3 className="font-bold leading-none tracking-tight text-slate-800">Income by Category</h3>
                 <p className="text-sm text-slate-500 mt-1">Sources of your income</p>
             </div>
-            <div className="flex-1 min-h-[300px] w-full relative">
-                <ResponsiveContainer width="100%" height="100%">
+            <div className="h-[300px] w-full relative">
+                <ResponsiveContainer width="99%" height="100%">
                     <PieChart>
                         <Pie
                             data={data}

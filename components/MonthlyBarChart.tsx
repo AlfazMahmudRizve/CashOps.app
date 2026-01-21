@@ -12,13 +12,13 @@ interface MonthlyBarChartProps {
 
 export function MonthlyBarChart({ data }: MonthlyBarChartProps) {
     return (
-        <div className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm hover:shadow-md transition-shadow duration-300">
+        <div className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm hover:shadow-md transition-shadow duration-300 min-w-0">
             <div className="mb-6">
                 <h3 className="font-bold leading-none tracking-tight text-slate-800">Monthly Activity</h3>
                 <p className="text-sm text-slate-500 mt-1">Income vs Expenses over time</p>
             </div>
             <div className="h-[300px] w-full">
-                <ResponsiveContainer width="100%" height="100%">
+                <ResponsiveContainer width="99%" height="100%">
                     <BarChart
                         data={data}
                         margin={{
