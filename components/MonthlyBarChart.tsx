@@ -14,12 +14,12 @@ export function MonthlyBarChart({ data }: MonthlyBarChartProps) {
     const hasData = data && data.length > 0 && data.some(d => d.income > 0 || d.expense > 0);
 
     return (
-        <div className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm hover:shadow-lg transition-shadow duration-300 min-w-0 flex flex-col h-full">
+        <div className="rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900/50 p-6 shadow-sm hover:shadow-lg transition-all duration-300 min-w-0 flex flex-col h-full">
             <div className="mb-6">
-                <h3 className="font-bold leading-none tracking-tight text-slate-900">Monthly Activity</h3>
-                <p className="text-sm text-slate-500 mt-1">Income vs Expenses over time</p>
+                <h3 className="font-bold leading-none tracking-tight text-slate-900 dark:text-white">Monthly Activity</h3>
+                <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Income vs Expenses over time</p>
             </div>
-            <div className="h-[300px] w-full flex-1">
+            <div className="h-[300px] w-full">
                 {!hasData ? (
                     <div className="h-full flex flex-col items-center justify-center text-slate-400">
                         <div className="p-4 bg-slate-50 rounded-full mb-3">

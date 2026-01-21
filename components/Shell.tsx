@@ -17,14 +17,14 @@ export function Shell({ children }: { children: React.ReactNode }) {
             <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
             <div className={cn(
-                "min-h-screen transition-all duration-300 ease-in-out p-4",
+                "min-h-screen transition-all duration-300 ease-in-out p-4 bg-slate-50 dark:bg-slate-950",
                 isSidebarOpen ? "sm:ml-64" : "ml-0"
             )}>
                 {/* Header / Toggle Bar */}
                 <div className="mb-4 flex items-center">
                     <button
                         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                        className="p-2 mr-4 rounded-lg hover:bg-slate-100 text-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                        className="p-2 mr-4 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                         aria-label="Toggle Sidebar"
                     >
                         <Menu className="h-6 w-6" />

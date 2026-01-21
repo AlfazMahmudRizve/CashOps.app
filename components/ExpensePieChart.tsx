@@ -12,12 +12,12 @@ export function ExpensePieChart({ data }: ExpensePieChartProps) {
     const total = data.reduce((sum, item) => sum + item.value, 0);
 
     return (
-        <div className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm hover:shadow-lg transition-shadow duration-300 h-full flex flex-col min-w-0">
+        <div className="rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900/50 p-6 shadow-sm hover:shadow-lg transition-all duration-300 h-full flex flex-col min-w-0">
             <div className="mb-2">
-                <h3 className="font-bold leading-none tracking-tight text-slate-900">Expenses by Category</h3>
-                <p className="text-sm text-slate-500 mt-1">Breakdown of your spending</p>
+                <h3 className="font-bold leading-none tracking-tight text-slate-900 dark:text-white">Expenses by Category</h3>
+                <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Breakdown of your spending</p>
             </div>
-            <div className="h-[300px] w-full relative flex-1">
+            <div className="h-[300px] w-full relative">
                 {data.length === 0 ? (
                     <div className="h-full flex flex-col items-center justify-center text-slate-400">
                         <div className="p-4 bg-slate-50 rounded-full mb-3">

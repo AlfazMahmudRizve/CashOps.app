@@ -81,38 +81,38 @@ export function AddTransactionDialog() {
             <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Add Transaction">
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
-                        <label className="mb-2 block text-sm font-medium text-slate-900">Description</label>
+                        <label className="mb-2 block text-sm font-medium text-slate-900 dark:text-slate-200">Description</label>
                         <input
                             type="text"
                             required
                             value={formData.description}
                             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                            className="block w-full rounded-lg border border-slate-300 bg-slate-50 p-2.5 text-sm text-slate-900 focus:border-emerald-500 focus:ring-emerald-500"
+                            className="block w-full rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 p-2.5 text-sm text-slate-900 dark:text-white focus:border-emerald-500 focus:ring-emerald-500"
                             placeholder="e.g. Lunch with colleagues"
                         />
                     </div>
 
                     <div>
-                        <label className="mb-2 block text-sm font-medium text-slate-900">Amount</label>
+                        <label className="mb-2 block text-sm font-medium text-slate-900 dark:text-slate-200">Amount</label>
                         <input
                             type="number"
                             required
                             step="0.01"
                             value={formData.amount}
                             onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
-                            className="block w-full rounded-lg border border-slate-300 bg-slate-50 p-2.5 text-sm text-slate-900 focus:border-emerald-500 focus:ring-emerald-500"
+                            className="block w-full rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 p-2.5 text-sm text-slate-900 dark:text-white focus:border-emerald-500 focus:ring-emerald-500"
                             placeholder="0.00"
                         />
                     </div>
 
                     <div>
-                        <label className="mb-2 block text-sm font-medium text-slate-900">Type</label>
+                        <label className="mb-2 block text-sm font-medium text-slate-900 dark:text-slate-200">Type</label>
                         <div className="flex space-x-4">
-                            <label className="flex items-center space-x-2">
+                            <label className="flex items-center space-x-2 text-slate-700 dark:text-slate-300">
                                 <input type="radio" value="expense" checked={formData.type === 'expense'} onChange={(e) => setFormData({ ...formData, type: e.target.value })} className="h-4 w-4 border-slate-300 text-emerald-600 focus:ring-emerald-500" />
                                 <span>Expense</span>
                             </label>
-                            <label className="flex items-center space-x-2">
+                            <label className="flex items-center space-x-2 text-slate-700 dark:text-slate-300">
                                 <input type="radio" value="income" checked={formData.type === 'income'} onChange={(e) => setFormData({ ...formData, type: e.target.value })} className="h-4 w-4 border-slate-300 text-emerald-600 focus:ring-emerald-500" />
                                 <span>Income</span>
                             </label>
@@ -120,11 +120,11 @@ export function AddTransactionDialog() {
                     </div>
 
                     <div>
-                        <label className="mb-2 block text-sm font-medium text-slate-900">Category</label>
+                        <label className="mb-2 block text-sm font-medium text-slate-900 dark:text-slate-200">Category</label>
                         <select
                             value={formData.category}
                             onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                            className="block w-full rounded-lg border border-slate-300 bg-slate-50 p-2.5 text-sm text-slate-900 focus:border-emerald-500 focus:ring-emerald-500"
+                            className="block w-full rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 p-2.5 text-sm text-slate-900 dark:text-white focus:border-emerald-500 focus:ring-emerald-500"
                         >
                             {categories.map(cat => (
                                 <option key={cat} value={cat}>{cat}</option>
@@ -136,7 +136,7 @@ export function AddTransactionDialog() {
                         <button
                             type="button"
                             onClick={() => setIsModalOpen(false)}
-                            className="mr-2 rounded-lg border border-slate-200 bg-white px-5 py-2.5 text-sm font-medium text-slate-900 hover:bg-slate-100 hover:text-blue-700"
+                            className="mr-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-5 py-2.5 text-sm font-medium text-slate-900 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-blue-700 dark:hover:text-blue-400"
                         >
                             Cancel
                         </button>

@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { LayoutDashboard, Receipt, Wallet, LogOut, LogIn, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useSession, signOut } from "next-auth/react";
+import { ThemeToggle } from "./ThemeToggle";
 
 const links = [
     { href: "/", label: "Dashboard", icon: LayoutDashboard },
@@ -34,7 +35,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
             {/* Sidebar */}
             <aside
                 className={cn(
-                    "fixed left-0 top-0 z-40 h-screen w-64 border-r bg-slate-900 text-white transition-transform duration-300 ease-in-out",
+                    "fixed left-0 top-0 z-40 h-screen w-64 border-r bg-white dark:bg-slate-950 border-slate-200 dark:border-slate-800 transition-transform duration-300 ease-in-out",
                     isOpen ? "translate-x-0" : "-translate-x-full"
                 )}
             >
@@ -44,13 +45,13 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
                             <div className="mr-3 p-1 bg-emerald-500 rounded-lg">
                                 <Wallet className="h-6 w-6 text-white" />
                             </div>
-                            <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
+                            <span className="self-center whitespace-nowrap text-xl font-semibold text-slate-900 dark:text-white">
                                 BudgetBuddy
                             </span>
                         </div>
                         <button
                             onClick={onClose}
-                            className="p-1 rounded-md hover:bg-slate-800 text-slate-400 sm:hidden"
+                            className="p-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 sm:hidden"
                         >
                             <X className="h-6 w-6" />
                         </button>
@@ -66,11 +67,11 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
                                         href={link.href}
                                         onClick={() => window.innerWidth < 640 && onClose()}
                                         className={cn(
-                                            "flex items-center rounded-lg p-2 text-slate-300 hover:bg-slate-800 hover:text-white group",
-                                            isActive && "bg-slate-800 text-emerald-400"
+                                            "flex items-center rounded-lg p-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white group",
+                                            isActive && "bg-slate-100 dark:bg-slate-800 text-emerald-600 dark:text-emerald-400"
                                         )}
                                     >
-                                        <Icon className={cn("h-5 w-5 flex-shrink-0 transition duration-75 text-slate-400 group-hover:text-white", isActive && "text-emerald-400")} />
+                                        <Icon className={cn("h-5 w-5 flex-shrink-0 transition duration-75 text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white", isActive && "text-emerald-600 dark:text-emerald-400")} />
                                         <span className="ml-3">{link.label}</span>
                                     </Link>
                                 </li>
@@ -78,26 +79,30 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
                         })}
                     </ul>
 
-                    <div className="mt-auto border-t border-slate-800 pt-4">
+                    <div className="mt-auto border-t border-slate-200 dark:border-slate-800 pt-4">
+                        <div className="mb-4 px-2">
+                            <ThemeToggle className="w-full flex justify-center bg-slate-100 dark:bg-slate-800" />
+                        </div>
+
                         {session ? (
                             <div className="space-y-4">
-                                <div className="px-2 text-sm text-slate-400">
-                                    Signed in as <br /> <span className="text-white font-medium">{session.user?.email}</span>
+                                <div className="px-2 text-sm text-slate-500 dark:text-slate-400">
+                                    Signed in as <br /> <span className="text-slate-900 dark:text-white font-medium">{session.user?.email}</span>
                                 </div>
                                 <button
                                     onClick={() => signOut()}
-                                    className="flex w-full items-center rounded-lg p-2 text-slate-300 hover:bg-slate-800 hover:text-white group transition-colors"
+                                    className="flex w-full items-center rounded-lg p-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white group transition-colors"
                                 >
-                                    <LogOut className="h-5 w-5 flex-shrink-0 text-slate-400 group-hover:text-red-400 transition duration-75" />
+                                    <LogOut className="h-5 w-5 flex-shrink-0 text-slate-400 group-hover:text-red-500 transition duration-75" />
                                     <span className="ml-3">Logout</span>
                                 </button>
                             </div>
                         ) : (
                             <Link
                                 href="/login"
-                                className="flex items-center rounded-lg p-2 text-slate-300 hover:bg-slate-800 hover:text-white group transition-colors"
+                                className="flex items-center rounded-lg p-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white group transition-colors"
                             >
-                                <LogIn className="h-5 w-5 flex-shrink-0 text-slate-400 group-hover:text-emerald-400 transition duration-75" />
+                                <LogIn className="h-5 w-5 flex-shrink-0 text-slate-400 group-hover:text-emerald-500 transition duration-75" />
                                 <span className="ml-3">Login</span>
                             </Link>
                         )}
