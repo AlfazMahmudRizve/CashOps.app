@@ -6,24 +6,54 @@ interface StatCardProps {
     value: string;
     icon: LucideIcon;
     color?: "default" | "green" | "red";
+    trend?: string;
 }
 
-export function StatCard({ title, value, icon: Icon, color = "default" }: StatCardProps) {
+export function StatCard({ title, value, icon: Icon, color = "default", trend }: StatCardProps) {
     const colorStyles = {
-        default: "text-slate-900",
-        green: "text-emerald-500",
-        red: "text-red-500",
+        default: {
+            text: "text-blue-600",
+            bg: "bg-blue-50",
+            border: "border-slate-100",
+            hover: "hover:shadow-blue-100/50"
+        },
+        green: {
+            text: "text-emerald-600",
+            bg: "bg-emerald-50",
+            border: "border-slate-100",
+            hover: "hover:shadow-emerald-100/50"
+        },
+        red: {
+            text: "text-red-500",
+            bg: "bg-red-50",
+            border: "border-slate-100",
+            hover: "hover:shadow-red-100/50"
+        },
     };
 
+    const currentStyle = colorStyles[color];
+
     return (
-        <div className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm hover:shadow-md transition-shadow duration-300">
-            <div className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <h3 className="tracking-tight text-sm font-medium text-slate-500">{title}</h3>
-                <div className={cn("p-2 rounded-full bg-slate-50", color === 'green' && "bg-emerald-50", color === 'red' && "bg-red-50")}>
-                    <Icon className={cn("h-4 w-4", colorStyles[color])} />
+        <div className={cn(
+            "relative overflow-hidden rounded-2xl border bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1",
+            currentStyle.border,
+            currentStyle.hover
+        )}>
+            <div className="flex flex-row items-start justify-between">
+                <div>
+                    <p className="text-sm font-medium text-slate-500">{title}</p>
+                    <h3 className={cn("text-3xl font-bold mt-2 tracking-tight text-slate-900")}>{value}</h3>
+                </div>
+                <div className={cn("p-3 rounded-xl", currentStyle.bg)}>
+                    <Icon className={cn("h-6 w-6", currentStyle.text)} />
                 </div>
             </div>
-            <div className={cn("text-2xl font-bold mt-2", colorStyles[color])}>{value}</div>
+
+            {/* Decorative gradient overlay */}
+            <div className={cn(
+                "absolute -right-6 -bottom-6 h-24 w-24 rounded-full opacity-5 pointer-events-none",
+                currentStyle.bg.replace("bg-", "bg-") // Just reusing the color for a blob
+            )} style={{ backgroundColor: "currentColor" }} />
         </div>
     );
 }
