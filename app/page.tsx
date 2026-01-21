@@ -29,6 +29,19 @@ export default async function Home() {
     value,
   }));
 
+  // Group income by category for pie chart
+  const incomeByCategoryMap = transactions
+    .filter((t) => t.type === "income")
+    .reduce((acc, t) => {
+      acc[t.category] = (acc[t.category] || 0) + t.amount;
+      return acc;
+    }, {} as Record<string, number>);
+
+  const incomeByCategory = Object.entries(incomeByCategoryMap).map(([name, value]) => ({
+    name,
+    value,
+  }));
+
   // Monthly Activity (Last 6 months)
   const monthlyDataMap = new Map<string, { income: number; expense: number }>();
   const now = new Date();
@@ -81,6 +94,7 @@ export default async function Home() {
       totalIncome={totalIncome}
       totalExpense={totalExpense}
       expenseByCategory={expenseByCategory}
+      incomeByCategory={incomeByCategory}
       monthlyData={monthlyData}
       trendData={trendData}
     />

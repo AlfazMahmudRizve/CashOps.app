@@ -2,19 +2,19 @@
 
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend, Label } from "recharts";
 
-interface ExpensePieChartProps {
+interface IncomePieChartProps {
     data: { name: string; value: number }[];
 }
 
-const COLORS = ["#0ea5e9", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6", "#ec4899"];
+const COLORS = ["#10b981", "#34d399", "#6ee7b7", "#a7f3d0", "#059669", "#047857"];
 
-export function ExpensePieChart({ data }: ExpensePieChartProps) {
+export function IncomePieChart({ data }: IncomePieChartProps) {
     const total = data.reduce((sum, item) => sum + item.value, 0);
 
     if (data.length === 0) {
         return (
             <div className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm flex h-[350px] w-full items-center justify-center text-slate-500">
-                No expense data available
+                No income data available
             </div>
         )
     }
@@ -22,8 +22,8 @@ export function ExpensePieChart({ data }: ExpensePieChartProps) {
     return (
         <div className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm hover:shadow-md transition-shadow duration-300 h-full flex flex-col">
             <div className="mb-2">
-                <h3 className="font-bold leading-none tracking-tight text-slate-800">Expenses by Category</h3>
-                <p className="text-sm text-slate-500 mt-1">Breakdown of your spending</p>
+                <h3 className="font-bold leading-none tracking-tight text-slate-800">Income by Category</h3>
+                <p className="text-sm text-slate-500 mt-1">Sources of your income</p>
             </div>
             <div className="flex-1 min-h-[300px] w-full relative">
                 <ResponsiveContainer width="100%" height="100%">

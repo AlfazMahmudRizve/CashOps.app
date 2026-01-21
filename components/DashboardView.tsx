@@ -4,12 +4,14 @@ import { ExpensePieChart } from "./ExpensePieChart";
 import { AddTransactionDialog } from "./AddTransactionDialog";
 import { MonthlyBarChart } from "./MonthlyBarChart";
 import { TrendAreaChart } from "./TrendAreaChart";
+import { IncomePieChart } from "./IncomePieChart";
 
 interface DashboardViewProps {
     totalBalance: number;
     totalIncome: number;
     totalExpense: number;
     expenseByCategory: { name: string; value: number }[];
+    incomeByCategory: { name: string; value: number }[];
     monthlyData: { name: string; income: number; expense: number }[];
     trendData: { date: string; balance: number }[];
 }
@@ -19,6 +21,7 @@ export function DashboardView({
     totalIncome,
     totalExpense,
     expenseByCategory,
+    incomeByCategory,
     monthlyData,
     trendData,
 }: DashboardViewProps) {
@@ -52,14 +55,14 @@ export function DashboardView({
                 />
             </div>
 
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-7">
-                <div className="col-span-4 lg:col-span-4 space-y-6">
-                    <TrendAreaChart data={trendData} />
-                    <MonthlyBarChart data={monthlyData} />
-                </div>
-                <div className="col-span-3 lg:col-span-3">
-                    <ExpensePieChart data={expenseByCategory} />
-                </div>
+            <div className="grid gap-6 md:grid-cols-2">
+                <TrendAreaChart data={trendData} />
+                <MonthlyBarChart data={monthlyData} />
+            </div>
+
+            <div className="grid gap-6 md:grid-cols-2">
+                <IncomePieChart data={incomeByCategory} />
+                <ExpensePieChart data={expenseByCategory} />
             </div>
         </div>
     );
