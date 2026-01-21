@@ -1,25 +1,35 @@
 import prisma from "@/lib/prisma";
 import { DashboardView } from "@/components/DashboardView";
 
+interface Transaction {
+  id: string;
+  amount: number;
+  type: string;
+  category: string;
+  description: string;
+  date: Date;
+  createdAt: Date;
+}
+
 export const dynamic = 'force-dynamic';
 
 export default async function Home() {
-  const transactions = await prisma.transaction.findMany();
+  const transactions: Transaction[] = await prisma.transaction.findMany();
 
   const totalIncome = transactions
-    .filter((t) => t.type === "income")
-    .reduce((sum, t) => sum + t.amount, 0);
+    .filter((t: Transaction) => t.type === "income")
+    .reduce((sum, t: Transaction) => sum + t.amount, 0);
 
   const totalExpense = transactions
-    .filter((t) => t.type === "expense")
-    .reduce((sum, t) => sum + t.amount, 0);
+    .filter((t: Transaction) => t.type === "expense")
+    .reduce((sum, t: Transaction) => sum + t.amount, 0);
 
   const totalBalance = totalIncome - totalExpense;
 
   // Group expenses by category for pie chart
   const expenseByCategoryMap = transactions
-    .filter((t) => t.type === "expense")
-    .reduce((acc, t) => {
+    .filter((t: Transaction) => t.type === "expense")
+    .reduce((acc, t: Transaction) => {
       acc[t.category] = (acc[t.category] || 0) + t.amount;
       return acc;
     }, {} as Record<string, number>);
@@ -31,8 +41,8 @@ export default async function Home() {
 
   // Group income by category for pie chart
   const incomeByCategoryMap = transactions
-    .filter((t) => t.type === "income")
-    .reduce((acc, t) => {
+    .filter((t: Transaction) => t.type === "income")
+    .reduce((acc, t: Transaction) => {
       acc[t.category] = (acc[t.category] || 0) + t.amount;
       return acc;
     }, {} as Record<string, number>);
@@ -51,7 +61,7 @@ export default async function Home() {
     monthlyDataMap.set(monthKey, { income: 0, expense: 0 });
   }
 
-  transactions.forEach(t => {
+  transactions.forEach((t: Transaction) => {
     const d = new Date(t.date);
     const monthKey = d.toLocaleString('default', { month: 'short' });
     if (monthlyDataMap.has(monthKey)) {
@@ -75,7 +85,7 @@ export default async function Home() {
   // or just map every transaction. For cleaner chart, let's Aggregate by day.
   const dailyBalanceMap = new Map<string, number>();
 
-  sortedTransactions.forEach(t => {
+  sortedTransactions.forEach((t: Transaction) => {
     if (t.type === 'income') currentBalance += t.amount;
     else currentBalance -= t.amount;
 
