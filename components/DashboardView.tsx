@@ -5,6 +5,8 @@ import { AddTransactionDialog } from "./AddTransactionDialog";
 import { MonthlyBarChart } from "./MonthlyBarChart";
 import { TrendAreaChart } from "./TrendAreaChart";
 import { IncomePieChart } from "./IncomePieChart";
+import { BurnRateChart } from "./BurnRateChart";
+import { CsvImportDialog } from "./CsvImportDialog";
 
 interface DashboardViewProps {
     totalBalance: number;
@@ -14,6 +16,7 @@ interface DashboardViewProps {
     incomeByCategory: { name: string; value: number }[];
     monthlyData: { name: string; income: number; expense: number }[];
     trendData: { date: string; balance: number }[];
+    burnRateData: { date: string; amount: number }[];
 }
 
 export function DashboardView({
@@ -24,11 +27,13 @@ export function DashboardView({
     incomeByCategory,
     monthlyData,
     trendData,
+    burnRateData,
 }: DashboardViewProps) {
     return (
         <div className="space-y-8 pb-10">
             <div className="flex flex-col sm:flex-row items-end justify-end gap-4 -mt-16 mb-6 pointer-events-none">
-                <div className="pointer-events-auto">
+                <div className="pointer-events-auto flex gap-2">
+                    <CsvImportDialog />
                     <AddTransactionDialog />
                 </div>
             </div>
@@ -59,6 +64,11 @@ export function DashboardView({
                 <MonthlyBarChart data={monthlyData} />
                 <IncomePieChart data={incomeByCategory} />
                 <ExpensePieChart data={expenseByCategory} />
+            </div>
+
+            {/* Burn Rate - Full Width */}
+            <div className="w-full">
+                <BurnRateChart data={burnRateData} />
             </div>
         </div>
     );

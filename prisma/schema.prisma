@@ -28,4 +28,22 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   transactions  Transaction[]
+  recurringTransactions RecurringTransaction[]
+}
+
+model RecurringTransaction {
+  id          String   @id @default(uuid())
+  amount      Float
+  type        String   // "expense" or "income"
+  category    String
+  description String
+  frequency   String   @default("monthly") // For now only monthly
+  dayOfMonth  Int      // 1-31
+  lastGenerated DateTime?
+  
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }

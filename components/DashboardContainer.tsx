@@ -23,6 +23,22 @@ export function DashboardContainer({ serverTransactions = [] }: DashboardContain
     const isAuth = status === "authenticated";
     const transactions = isAuth ? serverTransactions : guestTransactions;
 
+    // Check for recurring transactions on load
+    useEffect(() => {
+        if (status === "authenticated") {
+            fetch("/api/transactions/recurring/check", { method: "POST" })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.created > 0) {
+                        // Refresh to show new transactions
+                        window.location.reload();
+                        // or router.refresh() but reload ensures data consistency visually if extensive
+                    }
+                })
+                .catch(err => console.error("Recurring check failed", err));
+        }
+    }, [status]);
+
     const metrics = calculateDashboardMetrics(transactions);
 
     return (

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Plus } from "lucide-react";
 import { Modal } from "./Modal";
@@ -8,8 +8,8 @@ import { useSession } from "next-auth/react";
 import { useGuestTransactions } from "@/hooks/useGuestTransactions";
 
 const FIXED_CATEGORIES = [
-  "Food", "Transport", "Housing", "Salary", "Freelance", 
-  "Utilities", "Entertainment", "Health", "Shopping", "Other"
+    "Food", "Transport", "Housing", "Salary", "Freelance",
+    "Utilities", "Entertainment", "Health", "Shopping", "Other"
 ];
 
 export function AddTransactionDialog() {
@@ -19,7 +19,20 @@ export function AddTransactionDialog() {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
-    
+
+    // Keyboard Shortcut (Cmd+K / Ctrl+K)
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+                e.preventDefault();
+                setIsModalOpen((prev) => !prev);
+            }
+        };
+
+        window.addEventListener("keydown", handleKeyDown);
+        return () => window.removeEventListener("keydown", handleKeyDown);
+    }, []);
+
     const [formData, setFormData] = useState({
         description: "",
         amount: "",
@@ -108,18 +121,18 @@ export function AddTransactionDialog() {
                         <div className="grid grid-cols-2 gap-4">
                             <label className={`
                                 cursor-pointer rounded-sm border p-3 flex items-center justify-center space-x-2 transition-all
-                                ${formData.type === 'expense' 
-                                    ? 'bg-red-500/10 border-red-500 text-red-500' 
+                                ${formData.type === 'expense'
+                                    ? 'bg-red-500/10 border-red-500 text-red-500'
                                     : 'border-zinc-800 bg-zinc-900 text-zinc-500 hover:border-zinc-700'}
                             `}>
                                 <input type="radio" value="expense" checked={formData.type === 'expense'} onChange={(e) => setFormData({ ...formData, type: e.target.value })} className="hidden" />
                                 <span className="font-bold">Expense</span>
                             </label>
-                            
+
                             <label className={`
                                 cursor-pointer rounded-sm border p-3 flex items-center justify-center space-x-2 transition-all
-                                ${formData.type === 'income' 
-                                    ? 'bg-emerald-500/10 border-emerald-500 text-emerald-500' 
+                                ${formData.type === 'income'
+                                    ? 'bg-emerald-500/10 border-emerald-500 text-emerald-500'
                                     : 'border-zinc-800 bg-zinc-900 text-zinc-500 hover:border-zinc-700'}
                             `}>
                                 <input type="radio" value="income" checked={formData.type === 'income'} onChange={(e) => setFormData({ ...formData, type: e.target.value })} className="hidden" />
@@ -167,8 +180,8 @@ export function AddTransactionDialog() {
                         </div>
                     </div>
 
-                     {/* Recurring Toggle */}
-                     <div className="flex items-center space-x-2 pt-2">
+                    {/* Recurring Toggle */}
+                    <div className="flex items-center space-x-2 pt-2">
                         <input
                             type="checkbox"
                             id="recurring"

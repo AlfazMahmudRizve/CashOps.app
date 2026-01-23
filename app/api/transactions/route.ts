@@ -32,7 +32,8 @@ export async function POST(request: Request) {
         }
 
         const body = await request.json();
-        const { amount, type, category, description, date } = body;
+        const { amount, type, category, description, date, isRecurring } = body;
+        const userId = (session.user as any).id;
 
         const transaction = await prisma.transaction.create({
             data: {
@@ -41,9 +42,23 @@ export async function POST(request: Request) {
                 category,
                 description: description || '',
                 date: new Date(date),
-                userId: (session.user as any).id,
+                userId,
             },
         });
+
+        if (isRecurring) {
+            await prisma.recurringTransaction.create({
+                data: {
+                    amount: Number(amount),
+                    type,
+                    category,
+                    description: description || '',
+                    dayOfMonth: new Date(date).getDate(),
+                    userId,
+                    lastGenerated: new Date(date), // Mark as generated for this month
+                }
+            });
+        }
 
         return NextResponse.json(transaction);
     } catch (error) {

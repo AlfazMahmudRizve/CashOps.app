@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Receipt, Wallet, LogOut, LogIn, X } from "lucide-react";
+import { LayoutDashboard, Receipt, Wallet, LogOut, LogIn, X, BookOpen } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useSession, signOut } from "next-auth/react";
 import { ThemeToggle } from "./ThemeToggle";
@@ -10,6 +10,7 @@ import { ThemeToggle } from "./ThemeToggle";
 const links = [
     { href: "/", label: "Dashboard", icon: LayoutDashboard },
     { href: "/transactions", label: "Transactions", icon: Receipt },
+    { href: "/guide", label: "User Manual", icon: BookOpen },
 ];
 
 interface SidebarProps {
@@ -51,7 +52,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
                     </div>
                     <div className="ml-auto flex items-center gap-2">
                         <div className="origin-center scale-75">
-                            <ThemeToggle />
+                            <ThemeToggle className="text-slate-400 hover:text-white hover:bg-slate-800" />
                         </div>
                         <button
                             onClick={onClose}
