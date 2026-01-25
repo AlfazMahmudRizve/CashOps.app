@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   description: "Professional personal finance management",
   icons: {
     icon: "/logo.png",
+    apple: "/logo.png",
   },
 };
 
