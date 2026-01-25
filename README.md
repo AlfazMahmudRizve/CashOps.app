@@ -1,38 +1,67 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# CashOps 💸
 
-## Getting Started
+**CashOps** is a modern, high-performance personal finance dashboard designed for speed and clarity. Built with Next.js 14, Tailwind CSS, and Prisma, it helps you track expenses, analyze burn rates, and manage your financial health with an agentic-first workflow.
 
-First, run the development server:
+![CashOps Dashboard](https://your-screenshot-url-here.com)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+-   **High-Velocity Logging**:
+    -   **Global Shortcut**: Press `Cmd+K` (or `Ctrl+K`) anywhere to log a transaction instantly.
+    -   **Bulk Import**: Drag-and-drop CSV files to ingest bank statements in seconds.
+-   **Smart Automation**:
+    -   **Recurring Transactions**: Automatically generates fixed expenses (e.g., Rent, Netflix) when you log in.
+-   **Deep Analytics**:
+    -   **Burn Rate Chart**: Visualizes your daily spending velocity over the last 30 days (Red).
+    -   **Income Rate Chart**: Tracks your daily earning velocity (Green).
+    -   **Insight Cards**: Monthly breakdown, total balance, and category distribution.
+-   **Privacy First**:
+    -   **Guest Mode**: try it out instantly with local storage (no login required).
+    -   **Secure Auth**: User accounts powered by NextAuth.js.
+-   **Premium UX**:
+    -   **Dark Mode**: Fully adaptive themes (Slate/Zinc).
+    -   **Responsive**: Optimized for mobile and desktop.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🛠️ Tech Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+-   **Framework**: Next.js 14 (App Router)
+-   **Styling**: Tailwind CSS v4, Lucide Icons, Recharts
+-   **Database**: SQLite (Dev) / PostgreSQL (Prod) via Prisma ORM
+-   **Auth**: NextAuth.js
+-   **Forms**: React Hook Form + Zod
 
-## Learn More
+## 🏁 Getting Started
 
-To learn more about Next.js, take a look at the following resources:
+1.  **Clone the repo**:
+    ```bash
+    git clone https://github.com/AlfazMahmudRizve/CashOps.app.git
+    cd CashOps.app
+    ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2.  **Install dependencies**:
+    ```bash
+    npm install
+    ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+3.  **Setup Database**:
+    ```bash
+    npx prisma generate
+    npx prisma db push
+    ```
 
-## Deploy on Vercel
+4.  **Run the app**:
+    ```bash
+    npm run dev
+    ```
 
-current link : [https://vercel.com/alfaz-mahmud-rizves-projects/budget-buddy](https://budget-buddy-five-swart.vercel.app/)
+## 📖 User Manual
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Check out the built-in [User Guide](/guide) (accessible via the sidebar) for details on shortcuts and advanced features.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🤝 Contributing
+
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+## 📄 License
+
+[MIT](https://choosealicense.com/licenses/mit/)

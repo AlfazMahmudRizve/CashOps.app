@@ -29,7 +29,7 @@ export default function LoginPage() {
     return (
         <div className="flex h-screen items-center justify-center bg-slate-50">
             <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-lg">
-                <h2 className="mb-6 text-2xl font-bold text-center text-slate-900">Login to BudgetBuddy</h2>
+                <h2 className="mb-6 text-2xl font-bold text-center text-slate-900 dark:text-white">Login to CashOps</h2>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
                         <label className="block text-sm font-medium text-slate-700">Email</label>
