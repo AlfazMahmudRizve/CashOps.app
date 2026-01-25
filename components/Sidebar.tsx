@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Receipt, Wallet, LogOut, LogIn, X, BookOpen } from "lucide-react";
+import { LayoutDashboard, Receipt, LogOut, LogIn, X, BookOpen } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useSession, signOut } from "next-auth/react";
 import { ThemeToggle } from "./ThemeToggle";
@@ -43,8 +43,8 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
                 {/* Header / Logo */}
                 <div className="flex h-16 items-center px-6 border-b border-slate-800/50">
                     <div className="flex items-center gap-3">
-                        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600 shadow-lg shadow-blue-900/20">
-                            <Wallet className="h-5 w-5 text-white" />
+                        <div className="relative h-8 w-8 overflow-hidden rounded-lg">
+                            <img src="/logo.png" alt="CashOps Logo" className="h-full w-full object-cover" />
                         </div>
                         <span className="text-xl font-bold tracking-tight text-white font-mono">
                             CashOps
