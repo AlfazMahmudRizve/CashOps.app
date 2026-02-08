@@ -56,7 +56,7 @@ export function DashboardContainer({ serverTransactions = [] }: DashboardContain
                     )}
                 </div>
             </div>
-            <DashboardView {...metrics} />
+            <DashboardView {...metrics} transactions={transactions} />
         </>
     );
 }

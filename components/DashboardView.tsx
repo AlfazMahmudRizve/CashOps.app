@@ -8,6 +8,9 @@ import { IncomePieChart } from "./IncomePieChart";
 import { BurnRateChart } from "./BurnRateChart";
 import { IncomeRateChart } from "./IncomeRateChart";
 import { CsvImportDialog } from "./CsvImportDialog";
+import { ExportReportDialog } from "./ExportReportDialog";
+import { BudgetManager } from "./BudgetManager";
+import { Transaction } from "@/lib/analytics";
 
 interface DashboardViewProps {
     totalBalance: number;
@@ -19,6 +22,7 @@ interface DashboardViewProps {
     trendData: { date: string; balance: number }[];
     burnRateData: { date: string; amount: number }[];
     incomeRateData: { date: string; amount: number }[];
+    transactions: Transaction[];
 }
 
 export function DashboardView({
@@ -31,11 +35,16 @@ export function DashboardView({
     trendData,
     burnRateData,
     incomeRateData,
+    transactions,
 }: DashboardViewProps) {
     return (
         <div className="space-y-8 pb-10">
             <div className="flex flex-col sm:flex-row items-end justify-end gap-4 -mt-16 mb-6 pointer-events-none">
                 <div className="pointer-events-auto flex gap-2">
+                    <ExportReportDialog
+                        transactions={transactions}
+                        metrics={{ totalIncome, totalExpense, totalBalance }}
+                    />
                     <CsvImportDialog />
                     <AddTransactionDialog />
                 </div>
@@ -60,6 +69,9 @@ export function DashboardView({
                     color="red"
                 />
             </div>
+
+            {/* Budget Tracker */}
+            <BudgetManager transactions={transactions} />
 
             {/* Main Content Grid: 2x2 Equal Grid for Charts */}
             <div className="grid gap-6 grid-cols-1 md:grid-cols-2">
