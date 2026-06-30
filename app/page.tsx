@@ -6,13 +6,13 @@ import { authOptions } from "@/lib/auth";
 export const dynamic = 'force-dynamic';
 
 export default async function Home() {
-  const session = await getServerSession(authOptions);
-  const userId = session?.user ? (session.user as any).id : undefined;
-
   let initialData: any = null;
 
-  if (userId && typeof userId === 'string') {
-    try {
+  try {
+    const session = await getServerSession(authOptions);
+    const userId = session?.user ? (session.user as any).id : undefined;
+
+    if (userId && typeof userId === 'string') {
       const [products, sellers, purchases, sales] = await Promise.all([
         prisma.product.findMany({ where: { userId } }),
         prisma.seller.findMany({ where: { userId } }),
@@ -84,9 +84,9 @@ export default async function Home() {
         purchases,
         sales
       }));
-    } catch (e) {
-      console.error("Failed to fetch initial dashboard data", e);
     }
+  } catch (e) {
+    console.error("Failed to fetch initial dashboard data", e);
   }
 
   return (

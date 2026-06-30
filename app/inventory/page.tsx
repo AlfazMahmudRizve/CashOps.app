@@ -6,15 +6,15 @@ import { authOptions } from "@/lib/auth";
 export const dynamic = 'force-dynamic';
 
 export default async function InventoryPage() {
-    const session = await getServerSession(authOptions);
-    const userId = session?.user ? (session.user as any).id : undefined;
-
     let initialProducts: any[] = [];
     let initialSellers: any[] = [];
     let initialSellerProducts: any[] = [];
 
-    if (userId && typeof userId === 'string') {
-        try {
+    try {
+        const session = await getServerSession(authOptions);
+        const userId = session?.user ? (session.user as any).id : undefined;
+
+        if (userId && typeof userId === 'string') {
             const [products, sellers, sellerProducts] = await Promise.all([
                 prisma.product.findMany({ where: { userId }, orderBy: { name: 'asc' } }),
                 prisma.seller.findMany({ where: { userId }, orderBy: { name: 'asc' } }),
@@ -34,9 +34,9 @@ export default async function InventoryPage() {
             initialProducts = JSON.parse(JSON.stringify(products));
             initialSellers = JSON.parse(JSON.stringify(sellers));
             initialSellerProducts = JSON.parse(JSON.stringify(sellerProducts));
-        } catch (e) {
-            console.error("Failed to fetch initial inventory catalog data", e);
         }
+    } catch (e) {
+        console.error("Failed to fetch initial inventory catalog data", e);
     }
 
     return (

@@ -59,5 +59,5 @@ export const authOptions: NextAuthOptions = {
     pages: {
         signIn: "/login",
     },
-    secret: process.env.NEXTAUTH_SECRET || (process.env.NODE_ENV === "production" ? undefined : "fallback_secret_dev_only"),
+    secret: process.env.NEXTAUTH_SECRET || "cashops-production-secret-change-me",
 };

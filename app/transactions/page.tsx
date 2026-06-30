@@ -6,16 +6,16 @@ import { authOptions } from "@/lib/auth";
 export const dynamic = 'force-dynamic';
 
 export default async function TransactionsPage() {
-    const session = await getServerSession(authOptions);
-    const userId = session?.user ? (session.user as any).id : undefined;
-
     let initialProducts: any[] = [];
     let initialSellers: any[] = [];
     let initialPurchases: any[] = [];
     let initialSales: any[] = [];
 
-    if (userId && typeof userId === 'string') {
-        try {
+    try {
+        const session = await getServerSession(authOptions);
+        const userId = session?.user ? (session.user as any).id : undefined;
+
+        if (userId && typeof userId === 'string') {
             const [products, sellers, purchases, sales] = await Promise.all([
                 prisma.product.findMany({ where: { userId }, orderBy: { name: 'asc' } }),
                 prisma.seller.findMany({ where: { userId }, orderBy: { name: 'asc' } }),
@@ -30,26 +30,21 @@ export default async function TransactionsPage() {
                     orderBy: { date: 'desc' }
                 })
             ]);
-            initialProducts = products;
-            initialSellers = sellers;
-            initialPurchases = purchases;
-            initialSales = sales;
-        } catch (e) {
-            console.error("Failed to fetch initial daily journal data", e);
+            initialProducts = JSON.parse(JSON.stringify(products));
+            initialSellers = JSON.parse(JSON.stringify(sellers));
+            initialPurchases = JSON.parse(JSON.stringify(purchases));
+            initialSales = JSON.parse(JSON.stringify(sales));
         }
+    } catch (e) {
+        console.error("Failed to fetch initial daily journal data", e);
     }
-
-    const serializedProducts = JSON.parse(JSON.stringify(initialProducts));
-    const serializedSellers = JSON.parse(JSON.stringify(initialSellers));
-    const serializedPurchases = JSON.parse(JSON.stringify(initialPurchases));
-    const serializedSales = JSON.parse(JSON.stringify(initialSales));
 
     return (
         <DailyJournalView
-            initialProducts={serializedProducts}
-            initialSellers={serializedSellers}
-            initialPurchases={serializedPurchases}
-            initialSales={serializedSales}
+            initialProducts={initialProducts}
+            initialSellers={initialSellers}
+            initialPurchases={initialPurchases}
+            initialSales={initialSales}
         />
     );
 }
