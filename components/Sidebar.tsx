@@ -2,14 +2,15 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Receipt, LogOut, LogIn, X, BookOpen } from "lucide-react";
+import { LayoutDashboard, Receipt, LogOut, LogIn, X, BookOpen, Boxes } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useSession, signOut } from "next-auth/react";
 import { ThemeToggle } from "./ThemeToggle";
 
 const links = [
     { href: "/", label: "Dashboard", icon: LayoutDashboard },
-    { href: "/transactions", label: "Transactions", icon: Receipt },
+    { href: "/transactions", label: "Daily Journal", icon: Receipt },
+    { href: "/inventory", label: "Inventory Catalog", icon: Boxes },
     { href: "/guide", label: "User Manual", icon: BookOpen },
 ];
 
@@ -67,8 +68,8 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
                     {/* Status & Login Section */}
                     {session ? (
                         <div className="rounded-xl bg-slate-900/50 border border-slate-800 p-4 relative overflow-hidden group">
-                            <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                            <p className="text-xs text-blue-400 font-medium mb-1 uppercase tracking-wider">Welcome back</p>
+                            <div className="absolute inset-0 bg-gradient-to-br from-amber-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                            <p className="text-xs text-amber-500 font-medium mb-1 uppercase tracking-wider">Welcome back</p>
                             <p className="text-sm font-bold text-white truncate">{session.user?.name || session.user?.email?.split('@')[0] || "User"}</p>
                         </div>
                     ) : (
@@ -83,7 +84,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
 
                             <Link
                                 href="/login"
-                                className="flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-3 text-sm font-bold text-white hover:bg-blue-500 transition-all shadow-lg shadow-blue-900/20 hover:shadow-blue-900/40 active:scale-[0.98]"
+                                className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#8B5CF6] px-4 py-3 text-sm font-bold text-white hover:bg-[#7c3aed] transition-all shadow-lg shadow-violet-900/20 hover:shadow-violet-900/40 active:scale-[0.98]"
                             >
                                 <LogIn className="h-4 w-4" />
                                 <span>Login</span>
@@ -109,7 +110,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
                                                     : "text-slate-400 hover:text-white hover:bg-slate-800/50"
                                             )}
                                         >
-                                            <Icon className={cn("h-5 w-5 transition-colors", isActive ? "text-blue-400" : "text-slate-500 group-hover:text-slate-300")} />
+                                            <Icon className={cn("h-5 w-5 transition-colors", isActive ? "text-[#F59E0B]" : "text-slate-500 group-hover:text-slate-300")} />
                                             <span>{link.label}</span>
                                         </Link>
                                     </li>

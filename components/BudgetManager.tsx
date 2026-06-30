@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Plus, Target } from "lucide-react";
 import { Modal } from "./Modal";
 import { BudgetCard } from "./BudgetCard";
@@ -19,6 +19,7 @@ interface Budget {
     category: string;
     limit: number;
     period: string;
+    spent?: number;
 }
 
 interface BudgetManagerProps {
@@ -34,10 +35,25 @@ export function BudgetManager({ transactions, serverBudgets = [] }: BudgetManage
     const [isOpen, setIsOpen] = useState(false);
     const [formData, setFormData] = useState({ category: CATEGORIES[0], limit: "" });
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [dbBudgets, setDbBudgets] = useState<Budget[]>([]);
+    const [refreshTrigger, setRefreshTrigger] = useState(0);
 
-    const budgets = session ? serverBudgets : guestBudgets;
+    useEffect(() => {
+        if (session) {
+            fetch('/api/budgets')
+                .then(res => res.json())
+                .then(data => {
+                    if (Array.isArray(data)) {
+                        setDbBudgets(data);
+                    }
+                })
+                .catch(err => console.error("Failed to load budgets", err));
+        }
+    }, [session, refreshTrigger]);
 
-    // Calculate spending per category from transactions (current month only)
+    const budgets = (session ? dbBudgets : guestBudgets) as Budget[];
+
+    // Calculate spending per category from transactions (current month only - fallback for guest mode)
     const now = new Date();
     const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
 
@@ -64,7 +80,7 @@ export function BudgetManager({ transactions, serverBudgets = [] }: BudgetManage
                         limit: parseFloat(formData.limit),
                     }),
                 });
-                router.refresh();
+                setRefreshTrigger(prev => prev + 1);
             } else {
                 addGuestBudget({
                     category: formData.category,
@@ -87,7 +103,7 @@ export function BudgetManager({ transactions, serverBudgets = [] }: BudgetManage
         try {
             if (session) {
                 await fetch(`/api/budgets?id=${budget.id}`, { method: 'DELETE' });
-                router.refresh();
+                setRefreshTrigger(prev => prev + 1);
             } else {
                 deleteGuestBudget(budget.id);
             }
@@ -181,7 +197,7 @@ export function BudgetManager({ transactions, serverBudgets = [] }: BudgetManage
                         key={budget.id}
                         category={budget.category}
                         limit={budget.limit}
-                        spent={spendingByCategory[budget.category] || 0}
+                        spent={budget.spent !== undefined ? budget.spent : (spendingByCategory[budget.category] || 0)}
                         onDelete={() => handleDelete(budget)}
                     />
                 ))}

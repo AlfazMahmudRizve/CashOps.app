@@ -10,16 +10,47 @@ export async function GET() {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
 
+        const userId = (session.user as any).id;
+
         const budgets = await prisma.budget.findMany({
             where: {
-                userId: (session.user as any).id,
+                userId,
             },
             orderBy: {
                 category: 'asc',
             },
         });
-        return NextResponse.json(budgets);
+
+        // Get spending (purchases) for current month grouped by category
+        const now = new Date();
+        const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+
+        const spending = await prisma.purchase.findMany({
+            where: {
+                userId,
+                date: {
+                    gte: startOfMonth,
+                },
+            },
+            include: {
+                product: true,
+            },
+        });
+
+        const spendingMap: Record<string, number> = {};
+        spending.forEach(p => {
+            const category = p.product?.category || 'Other';
+            spendingMap[category] = (spendingMap[category] || 0) + p.totalCost;
+        });
+
+        const budgetsWithSpent = budgets.map(b => ({
+            ...b,
+            spent: spendingMap[b.category] || 0,
+        }));
+
+        return NextResponse.json(budgetsWithSpent);
     } catch (error) {
+        console.error("Budget GET Error:", error);
         return NextResponse.json({ error: 'Failed to fetch budgets' }, { status: 500 });
     }
 }
@@ -35,7 +66,6 @@ export async function POST(request: Request) {
         const { category, limit, period = 'monthly' } = body;
         const userId = (session.user as any).id;
 
-        // Upsert - update if exists, create if not
         const budget = await prisma.budget.upsert({
             where: {
                 userId_category: {
@@ -57,7 +87,7 @@ export async function POST(request: Request) {
 
         return NextResponse.json(budget);
     } catch (error) {
-        console.error("Budget Error", error);
+        console.error("Budget POST Error:", error);
         return NextResponse.json({ error: 'Failed to create/update budget' }, { status: 500 });
     }
 }
@@ -76,12 +106,27 @@ export async function DELETE(request: Request) {
             return NextResponse.json({ error: 'Budget ID required' }, { status: 400 });
         }
 
+        const userId = (session.user as any).id;
+
+        const budget = await prisma.budget.findUnique({
+            where: { id },
+        });
+
+        if (!budget) {
+            return NextResponse.json({ error: 'Budget not found' }, { status: 404 });
+        }
+
+        if (budget.userId !== userId) {
+            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+        }
+
         await prisma.budget.delete({
             where: { id },
         });
 
         return NextResponse.json({ success: true });
     } catch (error) {
+        console.error("Budget DELETE Error:", error);
         return NextResponse.json({ error: 'Failed to delete budget' }, { status: 500 });
     }
 }

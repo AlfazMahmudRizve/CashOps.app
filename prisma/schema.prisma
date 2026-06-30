@@ -7,19 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Transaction {
-  id          String   @id @default(uuid())
-  amount      Float
-  type        String   // "income" or "expense"
-  category    String
-  description String
-  date        DateTime
-  createdAt   DateTime @default(now())
-  
-  userId      String?
-  user        User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
 model User {
   id            String    @id @default(uuid())
   name          String?
@@ -27,8 +14,11 @@ model User {
   password      String
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
-  transactions  Transaction[]
-  recurringTransactions RecurringTransaction[]
+  
+  products      Product[]
+  sellers       Seller[]
+  purchases     Purchase[]
+  sales         Sale[]
   budgets       Budget[]
 }
 
@@ -47,19 +37,85 @@ model Budget {
   @@unique([userId, category])
 }
 
-model RecurringTransaction {
-  id          String   @id @default(uuid())
-  amount      Float
-  type        String   // "expense" or "income"
-  category    String
-  description String
-  frequency   String   @default("monthly") // For now only monthly
-  dayOfMonth  Int      // 1-31
-  lastGenerated DateTime?
+model Product {
+  id           String   @id @default(uuid())
+  name         String
+  description  String?
+  category     String   @default("Other")
+  sku          String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
   
-  userId      String
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  sellerProducts SellerProduct[]
+  purchases     Purchase[]
+  sales         Sale[]
+  
+  @@unique([userId, name])
+}
+
+model Seller {
+  id           String   @id @default(uuid())
+  name         String
+  contactInfo  String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  sellerProducts SellerProduct[]
+  purchases     Purchase[]
+  sales         Sale[]
+  
+  @@unique([userId, name])
+}
+
+model SellerProduct {
+  id           String   @id @default(uuid())
+  productId    String
+  product      Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  sellerId     String
+  seller       Seller   @relation(fields: [sellerId], references: [id], onDelete: Cascade)
+  costPrice    Float
+  
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@unique([sellerId, productId])
+}
+
+model Purchase {
+  id           String   @id @default(uuid())
+  quantity     Int
+  unitPrice    Float
+  totalCost    Float    // Investment: quantity * unitPrice
+  date         DateTime
+  createdAt    DateTime @default(now())
+  
+  productId    String
+  product      Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  sellerId     String
+  seller       Seller   @relation(fields: [sellerId], references: [id], onDelete: Cascade)
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Sale {
+  id           String   @id @default(uuid())
+  quantity     Int
+  unitPrice    Float
+  totalRevenue Float    // Revenue: quantity * unitPrice
+  comment      String?  // Optional comment for general sales, required if stock <= 0
+  date         DateTime
+  createdAt    DateTime @default(now())
+  
+  productId    String
+  product      Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  sellerId     String?
+  seller       Seller?  @relation(fields: [sellerId], references: [id], onDelete: SetNull)
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

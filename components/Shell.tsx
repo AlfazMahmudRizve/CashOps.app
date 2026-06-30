@@ -35,7 +35,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
                         <div>
                             <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
                                 {pathname === "/" ? "Dashboard" :
-                                    pathname === "/transactions" ? "Transactions" :
+                                    pathname === "/transactions" ? "Daily Journal" :
                                         "CashOps"}
                             </h1>
                         </div>

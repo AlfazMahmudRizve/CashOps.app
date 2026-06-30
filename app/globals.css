@@ -3,25 +3,28 @@
 @variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --color-background: #0a0a0a;
-  --color-foreground: #ffffff;
+  --color-background: #0F172A;
+  --color-foreground: #F8FAFC;
   
-  --color-primary: #3b82f6; /* Blue for Actions */
-  --color-primary-foreground: #ffffff;
+  --color-primary: #F59E0B; /* Amber 500 */
+  --color-primary-foreground: #0F172A;
+  
+  --color-cta: #8B5CF6; /* Violet 500 */
+  --color-cta-foreground: #ffffff;
   
   --color-destructive: #ef4444; /* Vivid Red for Expense */
   --color-success: #22c55e; /* Vivid Green for Income */
   
-  --color-border: #262626;
-  --color-muted: #737373;
+  --color-border: #334155; /* Slate 700 */
+  --color-muted: #64748B; /* Slate 500 */
   
-  --color-card: #171717;
-  --color-card-foreground: #ffffff;
+  --color-card: #1E293B; /* Slate 800 */
+  --color-card-foreground: #F8FAFC;
 }
 
 :root {
-  --background: #0a0a0a;
-  --foreground: #ffffff;
+  --background: #0F172A;
+  --foreground: #F8FAFC;
 }
 
 body {
