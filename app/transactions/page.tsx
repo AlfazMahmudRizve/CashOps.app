@@ -39,22 +39,17 @@ export default async function TransactionsPage() {
         }
     }
 
-    // Format dates for client components
-    const formattedPurchases = initialPurchases.map(p => ({
-        ...p,
-        date: p.date.toISOString(),
-    }));
-    const formattedSales = initialSales.map(s => ({
-        ...s,
-        date: s.date.toISOString(),
-    }));
+    const serializedProducts = JSON.parse(JSON.stringify(initialProducts));
+    const serializedSellers = JSON.parse(JSON.stringify(initialSellers));
+    const serializedPurchases = JSON.parse(JSON.stringify(initialPurchases));
+    const serializedSales = JSON.parse(JSON.stringify(initialSales));
 
     return (
         <DailyJournalView
-            initialProducts={initialProducts}
-            initialSellers={initialSellers}
-            initialPurchases={formattedPurchases}
-            initialSales={formattedSales}
+            initialProducts={serializedProducts}
+            initialSellers={serializedSellers}
+            initialPurchases={serializedPurchases}
+            initialSales={serializedSales}
         />
     );
 }

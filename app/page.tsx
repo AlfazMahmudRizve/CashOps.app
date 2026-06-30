@@ -73,18 +73,7 @@ export default async function Home() {
           stock: item.stock
       }));
 
-      // Serialize dates to ISO strings for Client Component serialization
-      const serializedPurchases = purchases.map(p => ({
-        ...p,
-        date: p.date.toISOString(),
-      }));
-
-      const serializedSales = sales.map(s => ({
-        ...s,
-        date: s.date.toISOString(),
-      }));
-
-      initialData = {
+      initialData = JSON.parse(JSON.stringify({
         totalInvestment,
         totalRevenue,
         profitMargin,
@@ -92,9 +81,9 @@ export default async function Home() {
         productStocks,
         products,
         sellers,
-        purchases: serializedPurchases,
-        sales: serializedSales
-      };
+        purchases,
+        sales
+      }));
     } catch (e) {
       console.error("Failed to fetch initial dashboard data", e);
     }

@@ -31,9 +31,9 @@ export default async function InventoryPage() {
                     }
                 })
             ]);
-            initialProducts = products;
-            initialSellers = sellers;
-            initialSellerProducts = sellerProducts;
+            initialProducts = JSON.parse(JSON.stringify(products));
+            initialSellers = JSON.parse(JSON.stringify(sellers));
+            initialSellerProducts = JSON.parse(JSON.stringify(sellerProducts));
         } catch (e) {
             console.error("Failed to fetch initial inventory catalog data", e);
         }
